@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">首页</router-link> |
-      <router-link to="/login">登录页面</router-link> |
-      <router-link to="/register">注册页面</router-link>
-    </div>
+    <header-vue></header-vue>
     <router-view />
   </div>
 </template>
 
 <script>
-export default {};
+import HeaderVue from "./components/Header.vue";
+export default {
+  components: {
+    HeaderVue,
+  },
+};
 </script>
 
 <style>
