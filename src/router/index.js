@@ -8,6 +8,9 @@ const routes = [
         name: "Home",
         component: () =>
             import(/* webpackChunkName: "login" */ "../views/Home.vue"),
+        meta: {
+            requireAuth: true
+        }
     },
     {
         path: "/login", //  登录页面

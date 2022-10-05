@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ElMessage } from 'element-plus';
+import Cookies from "js-cookie";
 
 const productConfig = require("../../public/config.json"); // 引入config.json文件
 
@@ -15,6 +16,7 @@ axios.defaults.headers.post["Content-Type"] =
 axios.interceptors.request.use(
     (config) => {
         //    自定义请求头
+        config.headers["token"] = Cookies.get("token");
         return config;
     },
     (error) => {

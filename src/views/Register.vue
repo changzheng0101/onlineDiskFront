@@ -45,7 +45,7 @@
   </div>
 </template>
   
-  <script>
+  <script >
 import { addUser } from "@/request/user.js";
 export default {
   name: "Register",
@@ -75,6 +75,17 @@ export default {
         ],
       },
     };
+  },
+  created() {
+    if (this.$store.getters.isLogin) {
+      // 用户若已登录，自动跳转到首页
+      this.$notify({
+        title: "成功",
+        message: "您已登录！已跳转到首页",
+        type: "success",
+      });
+      this.$router.replace({ name: "Home" });
+    }
   },
   methods: {
     //  注册按钮-点击事件
@@ -107,7 +118,7 @@ export default {
 };
 </script>
   
-  <style>
+  <style scoped>
 .registerWrapper {
   height: 500px !important;
   min-height: 500px !important;
