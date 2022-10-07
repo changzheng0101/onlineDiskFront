@@ -1,3 +1,4 @@
+import all from '@/libs/globalFunction.js'
 import "@/router/before.js"
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ElementPlus from 'element-plus'
@@ -18,4 +19,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(ElementPlus)
 app.use(router)
 app.use(store)
+app.use(all)
 app.mount('#app')
