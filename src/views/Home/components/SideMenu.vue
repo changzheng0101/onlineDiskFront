@@ -13,7 +13,10 @@
       <el-icon v-if="!isCollapse" @click="toggleNav"><Fold /></el-icon>
     </div>
 
-    <el-menu-item index="0" :route="{ name: 'Home', query: { fileType: 0 } }">
+    <el-menu-item
+      index="0"
+      :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
+    >
       <el-icon><Menu /></el-icon>
       <template #title>全部</template>
     </el-menu-item>
@@ -68,8 +71,8 @@ export default {
   min-width: 200px;
   min-height: 100vh;
 }
-.el-menu--collapse{
-    min-height: 100vh;
+.el-menu--collapse {
+  min-height: 100vh;
 }
 .fold-wrapper {
   font-size: 2rem;

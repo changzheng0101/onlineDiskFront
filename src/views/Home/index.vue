@@ -2,7 +2,14 @@
   <div class="home">
     <side-menu-vue class="home-left"></side-menu-vue>
     <div class="home-right">
-      <select-column-vue></select-column-vue>
+      <div class="operation-wrapper">
+        <operation-menu-vue
+          :fileType="fileType"
+          :filePath="filePath"
+          @getTableData="getFileData"
+        ></operation-menu-vue>
+        <select-column-vue></select-column-vue>
+      </div>
       <bread-crumb-vue :fileType="fileType"></bread-crumb-vue>
       <file-table-vue
         :tableData="tableData"
@@ -21,6 +28,7 @@ import { getFileListByPath, getFileListByType } from "@/request/file.js";
 import BreadCrumbVue from "./components/BreadCrumb.vue";
 import FilePaginationVue from "./components/FilePagination.vue";
 import FileTableVue from "./components/FileTable.vue";
+import OperationMenuVue from "./components/OperationMenu.vue";
 import SelectColumnVue from "./components/SelectColumn.vue";
 import SideMenuVue from "./components/SideMenu.vue";
 export default {
@@ -31,6 +39,7 @@ export default {
     FileTableVue,
     FilePaginationVue,
     SelectColumnVue,
+    OperationMenuVue,
   },
   data() {
     return {
@@ -43,11 +52,7 @@ export default {
       },
     };
   },
-  watch: {
-    fileType() {
-      this.getFileData(); //  获取文件列表
-    },
-  },
+
   mounted() {
     this.getFileData(); //  获取文件列表
   },
@@ -56,6 +61,16 @@ export default {
       return this.$route.query.fileType
         ? Number(this.$route.query.fileType)
         : 0;
+    },
+    filePath() {
+      return this.$route.query.filePath;
+    },
+  },
+  watch: {
+    filePath() {
+      if (this.fileType === 0) {
+        this.getFileData(); //  获取文件列表
+      }
     },
   },
   methods: {
@@ -74,7 +89,7 @@ export default {
     // 根据路径获取文件列表
     getFileDataByPath() {
       getFileListByPath({
-        filePath: "/",
+        filePath: this.filePath,
         currentPage: this.pageData.currentPage,
         pageCount: this.pageData.pageCount,
       }).then(
@@ -133,5 +148,13 @@ export default {
   flex: 1 1 0;
   display: flex;
   flex-direction: column;
+}
+
+.operation-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
 }
 </style>

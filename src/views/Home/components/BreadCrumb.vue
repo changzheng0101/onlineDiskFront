@@ -34,12 +34,22 @@ export default {
         4: "全部音乐",
         5: "其他",
       },
-      // 依据路径查看时 先模拟路径数据
-      breadCrumbList: [
-        { name: "全部文件", path: "/" },
-        { name: "实验楼", path: "/实验楼/" },
-      ],
     };
+  },
+  computed: {
+    // 依据路径查看时 当前路径拆分的面包屑数据，data 中原有的 breadCrumbList 需要删掉
+    breadCrumbList() {
+      let path = this.$route.query.filePath; //  路径示例 /实验楼/
+      let pathList = path ? path.split("/").slice(1, -1) : []; // 路径列表，取第二个 ~ 倒数第二个，因为第一个和最后一个数组项都是空字符串
+      let res = [{ name: "全部文件", path: "/" }];
+      pathList.forEach((element, index) => {
+        res.push({
+          name: element,
+          path: `${res[index].path}${element}/`,
+        });
+      });
+      return res;
+    },
   },
 };
 </script>

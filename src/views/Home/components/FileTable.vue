@@ -2,11 +2,22 @@
   <el-table :data="tableData">
     <el-table-column
       prop="fileName"
+      height="calc(100vh - 202px)"
       label="文件名"
       v-if="selectedColumnList.includes('extendName')"
     >
+      <template v-slot="scope">
+        <div style="cursor: pointer" @click="handleFileNameClick(scope.row)">
+          {{ scope.row.fileName }}
+        </div>
+      </template>
     </el-table-column>
     <el-table-column prop="extendName" label="类型" width="100">
+      <template v-slot="scope">
+        <span>{{
+          scope.row.extendName ? scope.row.extendName : "文件夹"
+        }}</span>
+      </template>
     </el-table-column>
     <el-table-column
       prop="fileSize"
@@ -14,6 +25,9 @@
       width="60"
       v-if="selectedColumnList.includes('fileSize')"
     >
+      <template v-slot="scope">
+        <span>{{ calculateFileSize(scope.row.fileSize) }}</span>
+      </template>
     </el-table-column>
     <el-table-column
       prop="uploadTime"
@@ -94,6 +108,36 @@ export default {
     },
   },
   methods: {
+    //  计算文件大小
+    calculateFileSize(size) {
+      const B = 1024;
+      const KB = Math.pow(1024, 2);
+      const MB = Math.pow(1024, 3);
+      const GB = Math.pow(1024, 4);
+      if (!size) {
+        return "_";
+      } else if (size < KB) {
+        return (size / B).toFixed(0) + "KB";
+      } else if (size < MB) {
+        return (size / KB).toFixed(1) + "MB";
+      } else if (size < GB) {
+        return (size / MB).toFixed(2) + "GB";
+      } else {
+        return (size / GB).toFixed(3) + "TB";
+      }
+    },
+    // 文件名点击事件
+    handleFileNameClick(row) {
+      //  若是目录则进入目录
+      if (row.isDir) {
+        this.$router.push({
+          query: {
+            filePath: `${row.filePath}${row.fileName}/`,
+            fileType: 0,
+          },
+        });
+      }
+    },
     handleDelete(index, row) {
       console.log("handleDelete-->" + index + " " + row);
     },
@@ -109,3 +153,5 @@ export default {
   },
 };
 </script>
+<style scoped>
+</style>
