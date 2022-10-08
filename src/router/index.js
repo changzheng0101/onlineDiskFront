@@ -10,7 +10,7 @@ const routes = [
             import(/* webpackChunkName: "login" */ "../views/Home/index.vue"),
         meta: {
             requireAuth: true
-        }
+        },
     },
     {
         path: "/login", //  登录页面

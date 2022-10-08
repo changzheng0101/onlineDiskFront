@@ -164,7 +164,6 @@ export default {
             message: "已取消删除",
           });
         });
-      console.log("handleDelete-->" + index + " " + row);
     },
     handleRename(index, row) {
       console.log("handleRename-->" + index + " " + row);
@@ -173,7 +172,8 @@ export default {
       console.log("handleDownload-->" + index + " " + row);
     },
     handleMove(index, row) {
-      console.log("handleMove-->" + index + " " + row);
+      this.$emit("handleSelectFile", false, row); // true/false 操作类型：批量移动/单文件操作；row 当前行文件数据
+      this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
     },
   },
 };

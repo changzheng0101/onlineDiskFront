@@ -16,6 +16,8 @@
         :tableData="tableData"
         :loading="loading"
         @getTableData="getFileData"
+        @handleSelectFile="setOperationFile"
+        @handleMoveFile="setMoveFileDialog"
       ></file-table-vue>
       <file-pagination-vue
         :pageData="pageData"
@@ -25,16 +27,25 @@
         ref="globalUploader"
         @getTableData="getFileData"
       ></file-uploader-vue>
+      <move-file-dialog-vue
+        :dialogMoveFile="dialogMoveFile"
+        @setSelectFilePath="setSelectFilePath"
+        @confirmMoveFile="confirmMoveFile"
+        @handleMoveFile="setMoveFileDialog"
+      >
+      </move-file-dialog-vue>
     </div>
   </div>
 </template>
   
   <script>
 import { getFileListByPath, getFileListByType } from "@/request/file.js";
+import { getFileTree, moveFile } from "../../request/file";
 import BreadCrumbVue from "./components/BreadCrumb.vue";
 import FilePaginationVue from "./components/FilePagination.vue";
 import FileTableVue from "./components/FileTable.vue";
 import FileUploaderVue from "./components/FileUploader.vue";
+import MoveFileDialogVue from "./components/MoveFileDialog.vue";
 import OperationMenuVue from "./components/OperationMenu.vue";
 import SelectColumnVue from "./components/SelectColumn.vue";
 import SideMenuVue from "./components/SideMenu.vue";
@@ -48,6 +59,7 @@ export default {
     SelectColumnVue,
     OperationMenuVue,
     FileUploaderVue,
+    MoveFileDialogVue,
   },
   data() {
     return {
@@ -58,6 +70,15 @@ export default {
         pageCount: 20, //  每页显示条目个数
         total: 0, //  总数
       },
+      //  移动文件模态框数据
+      dialogMoveFile: {
+        visible: false, //  对话框是否显示
+        fileTree: [], //  目录树
+      },
+      isBatch: false, //  是否批量移动
+      operationFile: {}, // 单个操作的文件信息
+      operationFileList: [], // 批量操作的文件信息
+      selectFilePath: "", //  目标路径
     };
   },
   mounted() {
@@ -142,6 +163,66 @@ export default {
       this.pageData.currentPage = pageData.currentPage; // 页码赋值
       this.pageData.pageCount = pageData.pageCount; //  每页条目数赋值
       this.getFileData(); // 获取文件列表
+    },
+    /**
+     * 设置移动文件时的文件信息
+     * @param {Boolean} isBatch 是否批量移动，true 是批量移动，false 是单个文件操作
+     * @param {Object | Array} file 需要移动的文件信息，单个操作时为Oject，批量操作时，为Array
+     */
+    setOperationFile(isBatch, file) {
+      this.isBatch = isBatch; //  保存操作类型
+      if (isBatch) {
+        this.operationFileList = file; //  批量操作文件
+      } else {
+        this.operationFile = file; //  单个操作文件
+      }
+      console.log("setOperationFile-->" + this.operationFile);
+    },
+    /**
+     * 设置移动文件对话框相关数据
+     * @param {Boolean} visible 打开/关闭移动文件模态框
+     */
+    setMoveFileDialog(visible) {
+      console.log("setMoveFileDialog.visible-->" + visible);
+      this.dialogMoveFile.visible = visible; //  打开对话框
+      if (visible) {
+        // 打开对话框时，获取文件夹目录树
+        getFileTree().then((res) => {
+          if (res.success) {
+            this.dialogMoveFile.fileTree = [res.data];
+          } else {
+            this.$message.error(res.message);
+          }
+        });
+      }
+    },
+    //  设置移动文件的目标路径
+    setSelectFilePath(selectFilePath) {
+      this.selectFilePath = selectFilePath;
+    },
+    //  移动文件模态框-确定按钮事件
+    confirmMoveFile() {
+      if (this.isBatch) {
+        //  批量移动
+      } else {
+        //  单文件移动
+        let data = {
+          filePath: this.selectFilePath, //  目标路径
+          oldFilePath: this.operationFile.filePath, //  原路径
+          fileName: this.operationFile.fileName, //  文件名称
+          extendName: this.operationFile.extendName, //  文件扩展名
+        };
+        console.log(data);
+        moveFile(data).then((res) => {
+          if (res.success) {
+            this.$message.success("移动文件成功");
+            this.getFileData(); //  刷新文件列表
+            this.dialogMoveFile.visible = false; //  关闭对话框
+          } else {
+            this.$message.error(res.message);
+          }
+        });
+      }
     },
   },
 };
