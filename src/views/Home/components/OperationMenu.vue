@@ -19,6 +19,24 @@
         :disabled="fileType !== 0"
         >上传文件</el-button
       >
+      <el-button
+        size="mini"
+        type="primary"
+        icon="delete"
+        :disabled="!operationFileList.length"
+        @click="handleDeleteFileClick()"
+        >删除</el-button
+      >
+      <!-- disabled 当表格勾选项为空时，禁用移动按钮 | v-if 当左侧菜单选择全部时，才显示移动按钮 -->
+      <el-button
+        size="mini"
+        type="primary"
+        icon="rank"
+        :disabled="!operationFileList.length"
+        v-if="fileType === 0"
+        @click="handleMoveFileClick()"
+        >移动</el-button
+      >
     </el-button-group>
 
     <!-- 对话框 - 新建文件夹 -->
@@ -53,7 +71,7 @@
 </template>
   
   <script>
-import { createFile } from "@/request/file.js";
+import { batchDeleteFile, createFile } from "@/request/file.js";
 
 export default {
   name: "OperationMenu",
@@ -66,6 +84,11 @@ export default {
     // 文件路径
     filePath: {
       type: String,
+      required: true,
+    },
+    // 表格已选文件
+    operationFileList: {
+      type: Array,
       required: true,
     },
   },
@@ -125,8 +148,46 @@ export default {
       });
     },
     handleUploadFileClick() {
-      this.$emit('handleUploadFile', true)
-    }
+      this.$emit("handleUploadFile", true);
+    },
+    // 删除文件按钮 - 点击事件
+    handleDeleteFileClick() {
+      // 消息弹框提示用户
+      this.$confirm("此操作将永久删除文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          // 确定按钮 点击事件 调用批量删除文件接口
+          batchDeleteFile({
+            files: JSON.stringify(this.operationFileList),
+          }).then((res) => {
+            if (res.success) {
+              this.$message({
+                message: res.message,
+                type: "success",
+              });
+              this.$emit("getTableData"); //  刷新文件列表
+            } else {
+              this.$message.error("失败" + res.message);
+            }
+          });
+        })
+        .catch(() => {
+          //  取消
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+    // 移动文件按钮 - 点击事件
+    handleMoveFileClick() {
+      // true/false 批量移动/单文件操作 | this.operationFileList 当前行文件数据
+      this.$emit("handleSelectFile", true, this.operationFileList);
+      this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
+    },
   },
 };
 </script>

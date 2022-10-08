@@ -1,5 +1,11 @@
 <template>
-  <el-table :data="tableData">
+  <el-table :data="tableData" @selection-change="handleSelectRow">
+    <!-- 勾选框 -->
+    <el-table-column
+      type="selection"
+      width="56"
+      align="center"
+    ></el-table-column>
     <el-table-column
       prop="fileName"
       height="calc(100vh - 202px)"
@@ -209,6 +215,9 @@ export default {
     handleMove(index, row) {
       this.$emit("handleSelectFile", false, row); // true/false 操作类型：批量移动/单文件操作；row 当前行文件数据
       this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
+    },
+    handleSelectRow(selection) {
+      this.$emit("handleSelectFile", true, selection); // true/false 批量移动/单文件操作；selection 勾选的表格行数据
     },
   },
 };

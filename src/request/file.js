@@ -15,3 +15,8 @@ export const deleteFile = (p) => post('/file/deletefile', p)
 export const moveFile = (p) => post('/file/movefile', p)
 // 文件重命名
 export const renameFile = (p) => post('/file/renamefile', p)
+// 批量文件操作接口
+// 批量删除文件
+export const batchDeleteFile = (p) => post("/file/batchdeletefile", p);
+// 批量移动文件
+export const batchMoveFile = (p) => post("/file/batchmovefile", p);

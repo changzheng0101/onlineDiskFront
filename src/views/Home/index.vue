@@ -6,8 +6,11 @@
         <operation-menu-vue
           :fileType="fileType"
           :filePath="filePath"
+          :operationFileList="operationFileList"
           @getTableData="getFileData"
           @handleUploadFile="handleUploadFile"
+          @handleSelectFile="setOperationFile"
+          @handleMoveFile="setMoveFileDialog"
         ></operation-menu-vue>
         <select-column-vue></select-column-vue>
       </div>
@@ -49,6 +52,7 @@ import MoveFileDialogVue from "./components/MoveFileDialog.vue";
 import OperationMenuVue from "./components/OperationMenu.vue";
 import SelectColumnVue from "./components/SelectColumn.vue";
 import SideMenuVue from "./components/SideMenu.vue";
+import { batchMoveFile } from "@/request/file.js";
 export default {
   name: "Home",
   components: {
@@ -204,6 +208,20 @@ export default {
     confirmMoveFile() {
       if (this.isBatch) {
         //  批量移动
+        let data = {
+          filePath: this.selectFilePath,
+          files: JSON.stringify(this.operationFileList),
+        };
+        batchMoveFile(data).then((res) => {
+          if (res.success) {
+            this.$message.success(res.data);
+            this.getFileData(); //  刷新文件列表
+            this.dialogMoveFile.visible = false; //  关闭对话框
+            this.operationFileList = [];
+          } else {
+            this.$message.error(res.message);
+          }
+        });
       } else {
         //  单文件移动
         let data = {
