@@ -77,7 +77,7 @@
 </template>
   
 <script>
-import { deleteFile } from "../../../request/file";
+import { deleteFile, renameFile } from "../../../request/file";
 export default {
   name: "FileTable",
   props: {
@@ -173,7 +173,35 @@ export default {
         });
     },
     handleRename(index, row) {
-      console.log("handleRename-->" + index + " " + row);
+      let fileName = row.fileName;
+      this.$prompt("请输入文件名", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputValue: fileName,
+        inputPattern: /\S/, //  文件名不能为空
+        inputErrorMessage: "请输入文件名",
+        closeOnClickModal: false,
+      })
+        .then(({ value }) => {
+          // 确定按钮 调用重命名接口
+          renameFile({
+            ...row,
+            fileName: value,
+          }).then((res) => {
+            if (res.success) {
+              this.$emit("getTableData"); //  刷新文件列表
+              this.$message.success("文件已重命名");
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消",
+          });
+        });
     },
     handleDownload(index, row) {
       console.log("handleDownload-->" + index + " " + row);
