@@ -18,6 +18,7 @@
       <file-table-vue
         :tableData="tableData"
         :loading="loading"
+        :fileType="fileType"
         @getTableData="getFileData"
         @handleSelectFile="setOperationFile"
         @handleMoveFile="setMoveFileDialog"

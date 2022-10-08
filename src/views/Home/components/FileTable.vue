@@ -8,13 +8,31 @@
     ></el-table-column>
     <el-table-column
       prop="fileName"
-      height="calc(100vh - 202px)"
       label="文件名"
       v-if="selectedColumnList.includes('extendName')"
     >
       <template v-slot="scope">
         <div style="cursor: pointer" @click="handleFileNameClick(scope.row)">
           {{ scope.row.fileName }}
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="所在路径"
+      prop="filePath"
+      v-if="fileType !== 0"
+    >
+      <template v-slot=scope>
+        <div
+          style="cursor: pointer"
+          title="点击跳转"
+          @click="
+            $router.push({
+              query: { fileType: 0, filePath: scope.row.filePath },
+            })
+          "
+        >
+          {{ scope.row.filePath }}
         </div>
       </template>
     </el-table-column>
@@ -93,6 +111,10 @@ export default {
     },
     loading: {
       type: Boolean,
+      required: true,
+    },
+    fileType: {
+      type: Number,
       required: true,
     },
   },
