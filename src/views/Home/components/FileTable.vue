@@ -6,6 +6,11 @@
       width="56"
       align="center"
     ></el-table-column>
+    <el-table-column label prop="isDir" width="60" align="center">
+      <template v-slot="scope">
+        <img :src="setFileImg(scope.row)" style="width: 30px" />
+      </template>
+    </el-table-column>
     <el-table-column
       prop="fileName"
       label="文件名"
@@ -17,12 +22,8 @@
         </div>
       </template>
     </el-table-column>
-    <el-table-column
-      label="所在路径"
-      prop="filePath"
-      v-if="fileType !== 0"
-    >
-      <template v-slot=scope>
+    <el-table-column label="所在路径" prop="filePath" v-if="fileType !== 0">
+      <template v-slot="scope">
         <div
           style="cursor: pointer"
           title="点击跳转"
@@ -120,6 +121,27 @@ export default {
   },
   data() {
     return {
+      //  文件图片Map映射
+      fileImgMap: {
+        apk: require("@/assets/image/apk.png"),
+        csv: require("@/assets/image/csv.png"),
+        doc: require("@/assets/image/doc.png"),
+        excel: require("@/assets/image/excel.png"),
+        exe: require("@/assets/image/exe.png"),
+        fold: require("@/assets/image/fold.png"),
+        gif: require("@/assets/image/gif.png"),
+        html: require("@/assets/image/html.png"),
+        json: require("@/assets/image/json.png"),
+        mp3: require("@/assets/image/mp3.png"),
+        mp4: require("@/assets/image/mp4.png"),
+        other: require("@/assets/image/other.png"),
+        pdf: require("@/assets/image/pdf.png"),
+        ppt: require("@/assets/image/ppt.png"),
+        rar: require("@/assets/image/rar.png"),
+        svg: require("@/assets/image/svg.png"),
+        txt: require("@/assets/image/txt.png"),
+        zip: require("@/assets/image/zip.png"),
+      },
       // 模拟数据
       // tableData: [
       //   {
@@ -240,6 +262,30 @@ export default {
     },
     handleSelectRow(selection) {
       this.$emit("handleSelectFile", true, selection); // true/false 批量移动/单文件操作；selection 勾选的表格行数据
+    },
+    //  根据文件扩展名设置文件图片
+    setFileImg(row) {
+      if (!row.extendName) {
+        //  文件夹
+        return this.fileImgMap.fold;
+      } else if (["jpg", "png", "jpeg"].includes(row.extendName)) {
+        // 图片类型，直接显示缩略图
+        return this.downloadImgMin(row);
+      } else {
+        const fileTypeMap = {
+          pptx: "ppt",
+          doc: "word",
+          docx: "doc",
+          xls: "excel",
+          xlsx: "excel",
+        };
+        //  可以识别文件类型的文件
+        return (
+          this.fileImgMap[row.extendName] ||
+          this.fileImgMap[fileTypeMap[row.extendName]] ||
+          this.fileImgMap.other
+        );
+      }
     },
   },
 };
