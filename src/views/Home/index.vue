@@ -15,6 +15,7 @@
       <file-table-vue
         :tableData="tableData"
         :loading="loading"
+        @getTableData="getFileData"
       ></file-table-vue>
       <file-pagination-vue
         :pageData="pageData"
@@ -59,7 +60,6 @@ export default {
       },
     };
   },
-
   mounted() {
     this.getFileData(); //  获取文件列表
   },

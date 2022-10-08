@@ -70,6 +70,7 @@
 </template>
   
 <script>
+import { deleteFile } from "../../../request/file";
 export default {
   name: "FileTable",
   props: {
@@ -139,6 +140,30 @@ export default {
       }
     },
     handleDelete(index, row) {
+      // 消息弹框提示用户
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          // 确定按钮 点击事件 调用删除文件接口
+          deleteFile(row).then((res) => {
+            if (res.success) {
+              this.$emit("getTableData"); //  刷新文件列表
+              this.$message.success("删除成功");
+            } else {
+              this.$message.error(res.message);
+            }
+          });
+        })
+        .catch(() => {
+          //  取消
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
       console.log("handleDelete-->" + index + " " + row);
     },
     handleRename(index, row) {
