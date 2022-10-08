@@ -37,6 +37,14 @@
         @click="handleMoveFileClick()"
         >移动</el-button
       >
+      <el-button
+        size="mini"
+        type="primary"
+        icon="download"
+        :disabled="!operationFileList.length"
+        @click="handleDownloadFileClick()"
+        >下载</el-button
+      >
     </el-button-group>
 
     <!-- 对话框 - 新建文件夹 -->
@@ -67,6 +75,15 @@
         >
       </template>
     </el-dialog>
+
+    <!-- 多选文件下载，页面隐藏 -->
+    <a
+      v-for="(item, index) in operationFileList"
+      :key="index"
+      :href="`/api/filetransfer/downloadfile?userFileId=${item.userFileId}`"
+      :download="`${item.fileName}.${item.extendName}`"
+      :ref="`downloadLink${index}`"
+    ></a>
   </div>
 </template>
   
@@ -187,6 +204,12 @@ export default {
       // true/false 批量移动/单文件操作 | this.operationFileList 当前行文件数据
       this.$emit("handleSelectFile", true, this.operationFileList);
       this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
+    },
+    // 下载文件按钮 - 点击事件
+    handleDownloadFileClick() {
+      for (let i = 0; i < this.operationFileList.length; i++) {
+        this.$refs[`downloadLink${i}`][0].click(); //  依次调用 a 标签的点击事件来下载文件
+      }
     },
   },
 };
