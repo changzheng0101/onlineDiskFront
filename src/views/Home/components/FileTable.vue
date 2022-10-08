@@ -61,7 +61,14 @@
             size="small"
             type="text"
             @click="handleDownload(scope.$index, scope.row)"
-            >下载</el-button
+            v-if="scope.row.isDir === 0"
+          >
+            <a
+              :href="`/api/filetransfer/downloadfile?userFileId=${scope.row.userFileId}`"
+              target="_blank"
+              style="display: block; color: inherit"
+              >下载</a
+            ></el-button
           >
         </div>
       </template>
@@ -179,4 +186,7 @@ export default {
 };
 </script>
 <style scoped>
+a {
+  text-decoration: none;
+}
 </style>
