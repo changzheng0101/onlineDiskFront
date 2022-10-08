@@ -7,6 +7,7 @@
           :fileType="fileType"
           :filePath="filePath"
           @getTableData="getFileData"
+          @handleUploadFile="handleUploadFile"
         ></operation-menu-vue>
         <select-column-vue></select-column-vue>
       </div>
@@ -19,6 +20,10 @@
         :pageData="pageData"
         @changePageData="changePageData"
       ></file-pagination-vue>
+      <file-uploader-vue
+        ref="globalUploader"
+        @getTableData="getFileData"
+      ></file-uploader-vue>
     </div>
   </div>
 </template>
@@ -28,6 +33,7 @@ import { getFileListByPath, getFileListByType } from "@/request/file.js";
 import BreadCrumbVue from "./components/BreadCrumb.vue";
 import FilePaginationVue from "./components/FilePagination.vue";
 import FileTableVue from "./components/FileTable.vue";
+import FileUploaderVue from "./components/FileUploader.vue";
 import OperationMenuVue from "./components/OperationMenu.vue";
 import SelectColumnVue from "./components/SelectColumn.vue";
 import SideMenuVue from "./components/SideMenu.vue";
@@ -40,6 +46,7 @@ export default {
     FilePaginationVue,
     SelectColumnVue,
     OperationMenuVue,
+    FileUploaderVue,
   },
   data() {
     return {
