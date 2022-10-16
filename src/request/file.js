@@ -27,4 +27,4 @@ export const localFileUpload = (p) => post("/localFile/uploadFile", p);
 // 上传多个文件
 export const localFileMultiUpload = (p) => post("/localFile/uploadMultiFile", p);
 // 文件下载
-export const localFileDownload = (p, filename) => get('/localFile/downloadFile/' + filename, p)
+export const localFileDownload = (filename) => get('/localFile/downloadFile/' + filename)

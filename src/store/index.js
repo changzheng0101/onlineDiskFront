@@ -18,6 +18,7 @@ export default createStore({
             state.file.selectedColumnList === null
                 ? state.file.allColumnList
                 : state.file.selectedColumnList.split(","),
+        selectedFiles: (state) => state.file.selectedFiles
     },
     mutations: {
         //

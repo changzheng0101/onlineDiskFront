@@ -76,12 +76,12 @@
       </template>
     </el-dialog>
 
-    <!-- 多选文件下载，页面隐藏 -->
+    <!-- 多选文件下载，页面隐藏,通过模仿点击a标签进行下载 -->
     <a
       v-for="(item, index) in operationFileList"
       :key="index"
-      :href="`/api/filetransfer/downloadfile?userFileId=${item.userFileId}`"
-      :download="`${item.fileName}.${item.extendName}`"
+      :href="`http://localhost:8081/localFile/downloadFile/logo.jpg`"
+      download
       :ref="`downloadLink${index}`"
     ></a>
   </div>
@@ -205,12 +205,13 @@ export default {
       this.$emit("handleSelectFile", true, this.operationFileList);
       this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
     },
-    // 下载文件按钮 - 点击事件
+    // 下载文件按钮 - 模仿一系列点击事件来下载
     handleDownloadFileClick() {
-      for (let i = 0; i < this.operationFileList.length; i++) {
-        console.log(this.operationFileList);
-        // this.$refs[`downloadLink${i}`][0].click(); //  依次调用 a 标签的点击事件来下载文件
-      }
+      console.log(JSON.stringify(this.$store.getters.selectedFiles));
+      // for (let i = 0; i < this.operationFileList.length; i++) {
+      //   console.log(this.operationFileList[i].values);
+      //   this.$refs[`downloadLink${i}`][0].click(); //  依次调用 a 标签的点击事件来下载文件
+      // }
     },
   },
 };

@@ -69,9 +69,7 @@
             @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button
           >
-          <el-button
-            size="default"
-            @click="handleMove(scope.$index, scope.row)"
+          <el-button size="default" @click="handleMove(scope.$index, scope.row)"
             >移动</el-button
           >
           <el-button
@@ -242,6 +240,7 @@ export default {
       this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
     },
     handleSelectRow(selection) {
+      this.$store.commit("changeSelectedFiles", selection);
       this.$emit("handleSelectFile", true, selection); // true/false 批量移动/单文件操作；selection 勾选的表格行数据
     },
     //  根据文件扩展名设置文件图片
