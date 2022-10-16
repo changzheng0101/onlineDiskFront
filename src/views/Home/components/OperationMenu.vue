@@ -23,7 +23,7 @@
         size="small"
         type="primary"
         icon="delete"
-        :disabled="!operationFileList.length"
+        :disabled="!selectedFiles.length"
         @click="handleDeleteFileClick()"
         >删除</el-button
       >
@@ -32,7 +32,7 @@
         size="small"
         type="primary"
         icon="rank"
-        :disabled="!operationFileList.length"
+        :disabled="!selectedFiles.length"
         v-if="fileType === 0"
         @click="handleMoveFileClick()"
         >移动</el-button
@@ -41,7 +41,7 @@
         size="small"
         type="primary"
         icon="download"
-        :disabled="!operationFileList.length"
+        :disabled="!selectedFiles.length"
         @click="handleDownloadFileClick()"
         >下载</el-button
       >
@@ -78,7 +78,7 @@
 
     <!-- 多选文件下载，页面隐藏,通过模仿点击a标签进行下载 -->
     <a
-      v-for="(item, index) in operationFileList"
+      v-for="(item, index) in selectedFiles"
       :key="index"
       :href="`http://localhost:8081/localFile/downloadFile/logo.jpg`"
       download
@@ -101,11 +101,6 @@ export default {
     // 文件路径
     filePath: {
       type: String,
-      required: true,
-    },
-    // 表格已选文件
-    operationFileList: {
-      type: Array,
       required: true,
     },
   },
@@ -131,6 +126,11 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    selectedFiles(){
+      return this.$store.getters.selectedFiles;
+    },
   },
   methods: {
     // 新建文件夹对话框 - 提交按钮
@@ -178,7 +178,7 @@ export default {
         .then(() => {
           // 确定按钮 点击事件 调用批量删除文件接口
           batchDeleteFile({
-            files: JSON.stringify(this.operationFileList),
+            files: JSON.stringify(this.selectedFiles),
           }).then((res) => {
             if (res.success) {
               this.$message({
@@ -201,8 +201,6 @@ export default {
     },
     // 移动文件按钮 - 点击事件
     handleMoveFileClick() {
-      // true/false 批量移动/单文件操作 | this.operationFileList 当前行文件数据
-      this.$emit("handleSelectFile", true, this.operationFileList);
       this.$emit("handleMoveFile", true); // true/false 打开/关闭移动文件对话框
     },
     // 下载文件按钮 - 模仿一系列点击事件来下载

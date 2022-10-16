@@ -6,10 +6,8 @@
         <operation-menu-vue
           :fileType="fileType"
           :filePath="filePath"
-          :operationFileList="operationFileList"
           @getTableData="getFileData"
           @handleUploadFile="showUploadDialog"
-          @handleSelectFile="setOperationFile"
           @handleMoveFile="setMoveFileDialog"
         ></operation-menu-vue>
         <select-column-vue></select-column-vue>
@@ -20,7 +18,6 @@
         :loading="loading"
         :fileType="fileType"
         @getTableData="getFileData"
-        @handleSelectFile="setOperationFile"
         @handleMoveFile="setMoveFileDialog"
       ></file-table-vue>
       <file-pagination-vue
@@ -45,9 +42,9 @@
   
   <script>
 import {
-  batchMoveFile,
-  getFileListByPath,
-  getFileListByType,
+batchMoveFile,
+getFileListByPath,
+getFileListByType
 } from "@/request/file.js";
 import { getFileTree, moveFile } from "../../request/file";
 import BreadCrumbVue from "./components/BreadCrumb.vue";
@@ -85,8 +82,6 @@ export default {
         fileTree: [], //  目录树
       },
       isBatch: false, //  是否批量移动
-      operationFile: {}, // 单个操作的文件信息
-      operationFileList: [], // 批量操作的文件信息
       selectFilePath: "", //  目标路径
       uploadFileDialogVisible: false,
     };
@@ -174,20 +169,7 @@ export default {
       this.pageData.pageCount = pageData.pageCount; //  每页条目数赋值
       this.getFileData(); // 获取文件列表
     },
-    /**
-     * 设置移动文件时的文件信息
-     * @param {Boolean} isBatch 是否批量移动，true 是批量移动，false 是单个文件操作
-     * @param {Object | Array} file 需要移动的文件信息，单个操作时为Oject，批量操作时，为Array
-     */
-    setOperationFile(isBatch, file) {
-      this.isBatch = isBatch; //  保存操作类型
-      if (isBatch) {
-        this.operationFileList = file; //  批量操作文件
-      } else {
-        this.operationFile = file; //  单个操作文件
-      }
-      console.log("setOperationFile-->" + this.operationFile);
-    },
+
     /**
      * 设置移动文件对话框相关数据
      * @param {Boolean} visible 打开/关闭移动文件模态框
@@ -216,14 +198,14 @@ export default {
         //  批量移动
         let data = {
           filePath: this.selectFilePath,
-          files: JSON.stringify(this.operationFileList),
+          files: JSON.stringify(this.$store.getters.selectedFiles),
         };
         batchMoveFile(data).then((res) => {
           if (res.success) {
             this.$message.success(res.data);
             this.getFileData(); //  刷新文件列表
             this.dialogMoveFile.visible = false; //  关闭对话框
-            this.operationFileList = [];
+            this.$store.commit("changeSelectedFiles", []);
           } else {
             this.$message.error(res.message);
           }
