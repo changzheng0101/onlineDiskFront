@@ -8,7 +8,7 @@
           :filePath="filePath"
           :operationFileList="operationFileList"
           @getTableData="getFileData"
-          @handleUploadFile="handleUploadFile"
+          @handleUploadFile="showUploadDialog"
           @handleSelectFile="setOperationFile"
           @handleMoveFile="setMoveFileDialog"
         ></operation-menu-vue>
@@ -28,8 +28,9 @@
         @changePageData="changePageData"
       ></file-pagination-vue>
       <file-uploader-vue
-        ref="globalUploader"
+        :dialogVisible="uploadFileDialogVisible"
         @getTableData="getFileData"
+        @handleUploadFile="showUploadDialog"
       ></file-uploader-vue>
       <move-file-dialog-vue
         :dialogMoveFile="dialogMoveFile"
@@ -43,7 +44,11 @@
 </template>
   
   <script>
-import { getFileListByPath, getFileListByType } from "@/request/file.js";
+import {
+  batchMoveFile,
+  getFileListByPath,
+  getFileListByType,
+} from "@/request/file.js";
 import { getFileTree, moveFile } from "../../request/file";
 import BreadCrumbVue from "./components/BreadCrumb.vue";
 import FilePaginationVue from "./components/FilePagination.vue";
@@ -53,7 +58,6 @@ import MoveFileDialogVue from "./components/MoveFileDialog.vue";
 import OperationMenuVue from "./components/OperationMenu.vue";
 import SelectColumnVue from "./components/SelectColumn.vue";
 import SideMenuVue from "./components/SideMenu.vue";
-import { batchMoveFile } from "@/request/file.js";
 export default {
   name: "Home",
   components: {
@@ -84,6 +88,7 @@ export default {
       operationFile: {}, // 单个操作的文件信息
       operationFileList: [], // 批量操作的文件信息
       selectFilePath: "", //  目标路径
+      uploadFileDialogVisible: false,
     };
   },
   mounted() {
@@ -242,6 +247,9 @@ export default {
           }
         });
       }
+    },
+    showUploadDialog(visible) {
+      this.uploadFileDialogVisible = visible;
     },
   },
 };

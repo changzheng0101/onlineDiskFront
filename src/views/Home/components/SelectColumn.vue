@@ -2,7 +2,7 @@
   <div class="select-column">
     <el-button
       type="info"
-      size="mini"
+      size="default"
       plain
       icon="el-icon-s-operation"
       @click="handleClickSelectColumn"

@@ -20,3 +20,11 @@ export const renameFile = (p) => post('/file/renamefile', p)
 export const batchDeleteFile = (p) => post("/file/batchdeletefile", p);
 // 批量移动文件
 export const batchMoveFile = (p) => post("/file/batchmovefile", p);
+
+// 本地文件操作
+// 上传一个文件
+export const localFileUpload = (p) => post("/localFile/uploadFile", p);
+// 上传多个文件
+export const localFileMultiUpload = (p) => post("/localFile/uploadMultiFile", p);
+// 文件下载
+export const localFileDownload = (p, filename) => get('/localFile/downloadFile/' + filename, p)

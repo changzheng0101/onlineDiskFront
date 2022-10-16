@@ -4,7 +4,7 @@
     <el-button-group class="operate-group">
       <!-- disabled 只在全部类型页面 才可新建文件夹 -->
       <el-button
-        size="mini"
+        size="small"
         type="primary"
         icon="plus"
         :disabled="fileType !== 0"
@@ -12,7 +12,7 @@
         >新建文件夹</el-button
       >
       <el-button
-        size="mini"
+        size="small"
         type="primary"
         icon="upload"
         @click="handleUploadFileClick()"
@@ -20,7 +20,7 @@
         >上传文件</el-button
       >
       <el-button
-        size="mini"
+        size="small"
         type="primary"
         icon="delete"
         :disabled="!operationFileList.length"
@@ -29,7 +29,7 @@
       >
       <!-- disabled 当表格勾选项为空时，禁用移动按钮 | v-if 当左侧菜单选择全部时，才显示移动按钮 -->
       <el-button
-        size="mini"
+        size="small"
         type="primary"
         icon="rank"
         :disabled="!operationFileList.length"
@@ -38,7 +38,7 @@
         >移动</el-button
       >
       <el-button
-        size="mini"
+        size="small"
         type="primary"
         icon="download"
         :disabled="!operationFileList.length"
@@ -208,7 +208,8 @@ export default {
     // 下载文件按钮 - 点击事件
     handleDownloadFileClick() {
       for (let i = 0; i < this.operationFileList.length; i++) {
-        this.$refs[`downloadLink${i}`][0].click(); //  依次调用 a 标签的点击事件来下载文件
+        console.log(this.operationFileList);
+        // this.$refs[`downloadLink${i}`][0].click(); //  依次调用 a 标签的点击事件来下载文件
       }
     },
   },

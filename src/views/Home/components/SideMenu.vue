@@ -56,6 +56,14 @@ export default {
       this.isCollapse = !this.isCollapse;
     },
   },
+  created() {
+    if (!this.$router.query) {
+      this.$router.replace({
+        name: "Home",
+        query: { fileType: 0, filePath: "/" },
+      });
+    }
+  },
   computed: {
     // 当前激活菜单的 index
     activeIndex() {

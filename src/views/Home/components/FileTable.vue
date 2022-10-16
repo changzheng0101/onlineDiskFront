@@ -65,31 +65,27 @@
       <template #default="scope">
         <div>
           <el-button
-            size="small"
-            type="text"
+            size="default"
             @click="handleDelete(scope.$index, scope.row)"
             >删除</el-button
           >
           <el-button
-            size="small"
-            type="text"
+            size="default"
             @click="handleMove(scope.$index, scope.row)"
             >移动</el-button
           >
           <el-button
-            size="small"
-            type="text"
+            size="default"
             @click="handleRename(scope.$index, scope.row)"
             >重命名</el-button
           >
           <el-button
-            size="small"
-            type="text"
+            size="default"
             @click="handleDownload(scope.$index, scope.row)"
             v-if="scope.row.isDir === 0"
           >
             <a
-              :href="`/api/filetransfer/downloadfile?userFileId=${scope.row.userFileId}`"
+              :href="`/localFile/downloadFile/logo.jpg`"
               target="_blank"
               style="display: block; color: inherit"
               >下载</a
@@ -142,21 +138,6 @@ export default {
         txt: require("@/assets/image/txt.png"),
         zip: require("@/assets/image/zip.png"),
       },
-      // 模拟数据
-      // tableData: [
-      //   {
-      //     fileName: "markdown样式文件",
-      //     extendName: "markdown",
-      //     fileSize: "10KB",
-      //     uploadTime: "2020-10-28 16:33:33",
-      //   },
-      //   {
-      //     fileName: "项目源码",
-      //     extendName: "zip",
-      //     fileSize: "7MB",
-      //     uploadTime: "2020-12-28 20:00:50",
-      //   },
-      // ],
       operaColumnIsFold: sessionStorage.getItem("operaColumnIsFold") || false, //  表格操作列-是否收缩
     };
   },
