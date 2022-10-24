@@ -1,15 +1,7 @@
 <template>
-  <el-pagination
-    class="file-pagination"
-    background
-    layout="sizes, total, prev, pager, next"
-    @current-change="handleCurrentChange"
-    @size-change="handleSizeChange"
-    :current-page="pageData.currentPage"
-    :page-count="pageData.pageCount"
-    :total="pageData.total"
-    :page-sizes="[10, 20, 50, 100]"
-  />
+  <el-pagination class="file-pagination" background layout="sizes, total, prev, pager, next"
+    @current-change="handleCurrentChange" @size-change="handleSizeChange" :current-page="pageData.currentPage"
+    :page-count="pageData.pageCount" :total="pageData.total" :page-sizes="[10, 20, 50, 100]" />
 </template>
 
 <script>

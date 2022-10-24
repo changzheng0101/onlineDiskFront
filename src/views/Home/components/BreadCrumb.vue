@@ -7,12 +7,8 @@
     <!-- 按路径查看文件时 -->
     <el-breadcrumb class="breadcrumb" v-else separator="/">
       <!-- 当点击面包屑导航栏中的某一级时，改变路由 -->
-      <el-breadcrumb-item
-        v-for="(item, index) in breadCrumbList"
-        :key="index"
-        :to="{ query: { fileType: 0, filePath: item.path } }"
-        >{{ item.name }}</el-breadcrumb-item
-      >
+      <el-breadcrumb-item v-for="(item, index) in breadCrumbList" :key="index"
+        :to="{ query: { fileType: 0, filePath: item.path } }">{{ item.name }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
@@ -63,6 +59,7 @@ export default {
   background-color: #fcfcfc;
   padding-left: 1rem;
 }
+
 .breadcrumb {
   padding: 1rem;
 }

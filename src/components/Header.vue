@@ -1,37 +1,16 @@
 <template>
-  <el-menu
-    class="header-menu"
-    :default-active="activeIndex"
-    :router="true"
-    mode="horizontal"
-  >
-    <el-menu-item
-      index="Home"
-      :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
-      >首页</el-menu-item
-    >
-    <el-menu-item
-      class="login"
-      index="Login"
-      :route="{ name: 'Login' }"
-      v-show="!isLogin"
-      >登录</el-menu-item
-    >
-    <el-menu-item
-      class="register"
-      index="Register"
-      :route="{ name: 'Register' }"
-      v-show="!isLogin"
-      >注册</el-menu-item
-    >
+  <el-menu class="header-menu" :default-active="activeIndex" :router="true" mode="horizontal">
+    <el-menu-item index="Home" :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }">首页</el-menu-item>
+    <el-menu-item class="login" index="Login" :route="{ name: 'Login' }" v-show="!isLogin">登录</el-menu-item>
+    <el-menu-item class="register" index="Register" :route="{ name: 'Register' }" v-show="!isLogin">注册</el-menu-item>
     <!-- 为了和其他菜单样式保持一致，请一定要添加类名 el-menu-item -->
-    <div class="el-menu-item exit" @click="exitButton()" v-show="isLogin">
-      退出
-    </div>
+    <div class="el-menu-item exit" @click="exitButton()" v-show="isLogin">退出</div>
     <!-- 为了和其他菜单样式保持一致，请一定要添加类名 el-menu-item -->
     <div class="el-menu-item username" v-show="isLogin">
       <!-- 图标来自于Element UI官方图标库 -->
-      <el-icon><UserFilled /></el-icon>{{ username }}
+      <el-icon>
+        <UserFilled />
+      </el-icon>{{ username }}
     </div>
   </el-menu>
 </template>
@@ -72,10 +51,10 @@ export default {
 .header-menu {
   padding: 0 24px;
 }
-.login,
-.register,
-.username,
+
+
+
 .exit {
-  float: right;
+  margin-left: auto;
 }
 </style>

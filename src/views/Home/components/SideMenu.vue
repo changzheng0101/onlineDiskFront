@@ -1,43 +1,49 @@
 <template>
-  <el-menu
-    class="el-menu-vertical-demo"
-    :default-active="activeIndex"
-    :router="true"
-    :collapse="isCollapse"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b"
-  >
+  <el-menu class="el-menu-vertical-demo" :default-active="activeIndex" :router="true" :collapse="isCollapse"
+    background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
     <div class="fold-wrapper">
-      <el-icon v-if="isCollapse" @click="toggleNav"><Expand /></el-icon>
-      <el-icon v-if="!isCollapse" @click="toggleNav"><Fold /></el-icon>
+      <el-icon v-if="isCollapse" @click="toggleNav">
+        <Expand />
+      </el-icon>
+      <el-icon v-if="!isCollapse" @click="toggleNav">
+        <Fold />
+      </el-icon>
     </div>
 
-    <el-menu-item
-      index="0"
-      :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }"
-    >
-      <el-icon><Menu /></el-icon>
+    <el-menu-item index="0" :route="{ name: 'Home', query: { fileType: 0, filePath: '/' } }">
+      <el-icon>
+        <Menu />
+      </el-icon>
       <template #title>全部</template>
     </el-menu-item>
     <el-menu-item index="1" :route="{ name: 'Home', query: { fileType: 1 } }">
-      <el-icon><PictureFilled /></el-icon>
+      <el-icon>
+        <PictureFilled />
+      </el-icon>
       <template #title>图片</template>
     </el-menu-item>
     <el-menu-item index="2" :route="{ name: 'Home', query: { fileType: 2 } }">
-      <el-icon><Document /></el-icon>
+      <el-icon>
+        <Document />
+      </el-icon>
       <template #title>文档</template>
     </el-menu-item>
     <el-menu-item index="3" :route="{ name: 'Home', query: { fileType: 3 } }">
-      <el-icon><VideoCameraFilled /></el-icon>
+      <el-icon>
+        <VideoCameraFilled />
+      </el-icon>
       <template #title>视频</template>
     </el-menu-item>
     <el-menu-item index="4" :route="{ name: 'Home', query: { fileType: 4 } }">
-      <el-icon><Headset /></el-icon>
+      <el-icon>
+        <Headset />
+      </el-icon>
       <template #title>音乐</template>
     </el-menu-item>
     <el-menu-item index="5" :route="{ name: 'Home', query: { fileType: 5 } }">
-      <el-icon><TakeawayBox /></el-icon>
+      <el-icon>
+        <TakeawayBox />
+      </el-icon>
       <template #title>其他</template>
     </el-menu-item>
   </el-menu>
@@ -79,9 +85,11 @@ export default {
   min-width: 200px;
   min-height: 100vh;
 }
+
 .el-menu--collapse {
   min-height: 100vh;
 }
+
 .fold-wrapper {
   font-size: 2rem;
   color: aliceblue;

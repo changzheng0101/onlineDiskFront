@@ -4,38 +4,16 @@
     <div class="upload-content">
       <div class="single-upload">
         <h3>上传单个文件</h3>
-        <form
-          id="singleUploadForm"
-          name="singleUploadForm"
-          @submit.prevent="singleSubmit"
-        >
-          <input
-            id="singleFileUploadInput"
-            type="file"
-            name="file"
-            class="file-input"
-            required
-            ref="singleInput"
-          />
+        <form id="singleUploadForm" name="singleUploadForm" @submit.prevent="singleSubmit">
+          <input id="singleFileUploadInput" type="file" name="file" class="file-input" required ref="singleInput" />
           <button type="submit" class="primary submit-btn">提交</button>
         </form>
       </div>
       <div class="multiple-upload">
         <h3>上传多个文件</h3>
-        <form
-          id="multipleUploadForm"
-          name="multipleUploadForm"
-          @submit.prevent="multiSubmit"
-        >
-          <input
-            id="multipleFileUploadInput"
-            type="file"
-            name="files"
-            class="file-input"
-            ref="multiInput"
-            multiple
-            required
-          />
+        <form id="multipleUploadForm" name="multipleUploadForm" @submit.prevent="multiSubmit">
+          <input id="multipleFileUploadInput" type="file" name="files" class="file-input" ref="multiInput" multiple
+            required />
           <button type="submit" class="primary submit-btn">提交</button>
         </form>
       </div>

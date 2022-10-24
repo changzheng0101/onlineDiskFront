@@ -1,21 +1,13 @@
 <template>
   <el-table :data="tableData" @selection-change="handleSelectRow">
     <!-- 勾选框 -->
-    <el-table-column
-      type="selection"
-      width="56"
-      align="center"
-    ></el-table-column>
+    <el-table-column type="selection" width="56" align="center"></el-table-column>
     <el-table-column label prop="isDir" width="60" align="center">
       <template v-slot="scope">
         <img :src="setFileImg(scope.row)" style="width: 30px" />
       </template>
     </el-table-column>
-    <el-table-column
-      prop="fileName"
-      label="文件名"
-      v-if="selectedColumnList.includes('extendName')"
-    >
+    <el-table-column prop="fileName" label="文件名" v-if="selectedColumnList.includes('extendName')">
       <template v-slot="scope">
         <div style="cursor: pointer" @click="handleFileNameClick(scope.row)">
           {{ scope.row.fileName }}
@@ -24,15 +16,11 @@
     </el-table-column>
     <el-table-column label="所在路径" prop="filePath" v-if="fileType !== 0">
       <template v-slot="scope">
-        <div
-          style="cursor: pointer"
-          title="点击跳转"
-          @click="
-            $router.push({
-              query: { fileType: 0, filePath: scope.row.filePath },
-            })
-          "
-        >
+        <div style="cursor: pointer" title="点击跳转" @click="
+          $router.push({
+            query: { fileType: 0, filePath: scope.row.filePath },
+          })
+        ">
           {{ scope.row.filePath }}
         </div>
       </template>
@@ -40,55 +28,26 @@
     <el-table-column prop="extendName" label="类型" width="100">
       <template v-slot="scope">
         <span>{{
-          scope.row.extendName ? scope.row.extendName : "文件夹"
+            scope.row.extendName ? scope.row.extendName : "文件夹"
         }}</span>
       </template>
     </el-table-column>
-    <el-table-column
-      prop="fileSize"
-      label="大小"
-      width="60"
-      v-if="selectedColumnList.includes('fileSize')"
-    >
+    <el-table-column prop="fileSize" label="大小" width="60" v-if="selectedColumnList.includes('fileSize')">
       <template v-slot="scope">
         <span>{{ calculateFileSize(scope.row.fileSize) }}</span>
       </template>
     </el-table-column>
-    <el-table-column
-      prop="uploadTime"
-      label="修改日期"
-      width="180"
-      v-if="selectedColumnList.includes('uploadTime')"
-    >
+    <el-table-column prop="uploadTime" label="修改日期" width="180" v-if="selectedColumnList.includes('uploadTime')">
     </el-table-column>
     <el-table-column label="操作" width="300">
       <template #default="scope">
         <div>
-          <el-button
-            size="default"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button
-          >
-          <el-button size="default" @click="handleMove(scope.$index, scope.row)"
-            >移动</el-button
-          >
-          <el-button
-            size="default"
-            @click="handleRename(scope.$index, scope.row)"
-            >重命名</el-button
-          >
-          <el-button
-            size="default"
-            @click="handleDownload(scope.$index, scope.row)"
-            v-if="scope.row.isDir === 0"
-          >
-            <a
-              :href="`/localFile/downloadFile/logo.jpg`"
-              target="_blank"
-              style="display: block; color: inherit"
-              >下载</a
-            ></el-button
-          >
+          <el-button size="default" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button size="default" @click="handleMove(scope.$index, scope.row)">移动</el-button>
+          <el-button size="default" @click="handleRename(scope.$index, scope.row)">重命名</el-button>
+          <el-button size="default" @click="handleDownload(scope.$index, scope.row)" v-if="scope.row.isDir === 0">
+            <a :href="`/localFile/downloadFile/logo.jpg`" target="_blank" style="display: block; color: inherit">下载</a>
+          </el-button>
         </div>
       </template>
     </el-table-column>

@@ -3,48 +3,28 @@
     <side-menu-vue class="home-left"></side-menu-vue>
     <div class="home-right">
       <div class="operation-wrapper">
-        <operation-menu-vue
-          :fileType="fileType"
-          :filePath="filePath"
-          @getTableData="getFileData"
-          @handleUploadFile="showUploadDialog"
-          @handleMoveFile="setMoveFileDialog"
-        ></operation-menu-vue>
+        <operation-menu-vue :fileType="fileType" :filePath="filePath" @getTableData="getFileData"
+          @handleUploadFile="showUploadDialog" @handleMoveFile="setMoveFileDialog"></operation-menu-vue>
         <select-column-vue></select-column-vue>
       </div>
       <bread-crumb-vue :fileType="fileType"></bread-crumb-vue>
-      <file-table-vue
-        :tableData="tableData"
-        :loading="loading"
-        :fileType="fileType"
-        @getTableData="getFileData"
-        @handleMoveFile="setMoveFileDialog"
-      ></file-table-vue>
-      <file-pagination-vue
-        :pageData="pageData"
-        @changePageData="changePageData"
-      ></file-pagination-vue>
-      <file-uploader-vue
-        :dialogVisible="uploadFileDialogVisible"
-        @getTableData="getFileData"
-        @handleUploadFile="showUploadDialog"
-      ></file-uploader-vue>
-      <move-file-dialog-vue
-        :dialogMoveFile="dialogMoveFile"
-        @setSelectFilePath="setSelectFilePath"
-        @confirmMoveFile="confirmMoveFile"
-        @handleMoveFile="setMoveFileDialog"
-      >
+      <file-table-vue :tableData="tableData" :loading="loading" :fileType="fileType" @getTableData="getFileData"
+        @handleMoveFile="setMoveFileDialog"></file-table-vue>
+      <file-pagination-vue :pageData="pageData" @changePageData="changePageData"></file-pagination-vue>
+      <file-uploader-vue :dialogVisible="uploadFileDialogVisible" @getTableData="getFileData"
+        @handleUploadFile="showUploadDialog"></file-uploader-vue>
+      <move-file-dialog-vue :dialogMoveFile="dialogMoveFile" @setSelectFilePath="setSelectFilePath"
+        @confirmMoveFile="confirmMoveFile" @handleMoveFile="setMoveFileDialog">
       </move-file-dialog-vue>
     </div>
   </div>
 </template>
   
-  <script>
+<script>
 import {
-batchMoveFile,
-getFileListByPath,
-getFileListByType
+  batchMoveFile,
+  getFileListByPath,
+  getFileListByType
 } from "@/request/file.js";
 import { getFileTree, moveFile } from "../../request/file";
 import BreadCrumbVue from "./components/BreadCrumb.vue";
@@ -96,7 +76,7 @@ export default {
         : 0;
     },
     filePath() {
-      return this.$route.query.filePath;
+      return this.$route.query.filePath ;
     },
   },
   watch: {
